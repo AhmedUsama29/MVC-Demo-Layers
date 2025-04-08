@@ -6,10 +6,12 @@ namespace Demo.DataAccess.Contexts
     {
 
         public AppDBContext(DbContextOptions<AppDBContext> options) : base(options) { }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            //optionsBuilder.UseSqlServer("ConnectionString");
-        }
+
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    //optionsBuilder.UseSqlServer("ConnectionString");
+        //}
 
 
 

@@ -1,5 +1,4 @@
-﻿
-namespace Demo.DataAccess.Data___Configurations
+﻿namespace Demo.DataAccess.Data.Configurations
 {
     public class DepartmentConfiguration : IEntityTypeConfiguration<Department>
     {
