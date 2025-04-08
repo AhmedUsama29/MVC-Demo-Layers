@@ -20,6 +20,7 @@ namespace Demo.BusinessLogic.DTOs
             this.CreatedBy = d.CreatedBy;
             this.LastModifiedBy = d.LastModifiedBy;
             this.IsDeleted = d.IsDeleted;
+            this.LastModifiedOn = d.LastModifiedOn;
         }
 
         public int id { get; set; }
@@ -35,6 +36,9 @@ namespace Demo.BusinessLogic.DTOs
         public int CreatedBy { get; set; }
 
         public int LastModifiedBy { get; set; }
+
+        public DateTime? LastModifiedOn { get; set; }
+
 
         public bool IsDeleted { get; set; }
 
