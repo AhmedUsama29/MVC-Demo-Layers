@@ -15,7 +15,7 @@ namespace Demo.Presentation
             #region Add services to the container
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<AppDBContext>(options => {
-                options.UseSqlServer(builder.Configuration["ConnectionString:DefaultConnection"]);
+                options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]);
                 //options.UseSqlServer(builder.Configuration.GetSection("ConnectionString")["DefaultConnection"]);
                 //options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"));
 
