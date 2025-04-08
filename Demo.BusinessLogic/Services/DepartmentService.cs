@@ -10,16 +10,18 @@ using System.Threading.Tasks;
 
 namespace Demo.BusinessLogic.Services
 {
-    public class DepartmentService(IDepartmentRepository _departmentRepository)
+    public class DepartmentService(IDepartmentRepository _departmentRepository) : IDepartmentService
     {
 
-        public IEnumerable<DepartmentDTO> GetAllDepartments() { 
-        
-        var departments = _departmentRepository.GetAll();
+        public IEnumerable<DepartmentDTO> GetAllDepartments()
+        {
 
-            var DepartmentsToReturn = departments.Select(d => new DepartmentDTO{ 
-            
-              id = d.Id,
+            var departments = _departmentRepository.GetAll();
+
+            var DepartmentsToReturn = departments.Select(d => new DepartmentDTO
+            {
+
+                id = d.Id,
                 Name = d.Name,
                 Code = d.Code,
                 Description = d.Description,
@@ -39,7 +41,7 @@ namespace Demo.BusinessLogic.Services
 
         }
 
-        public int CreateDepartment(CreateDepartmentDto createDepartmentDto) 
+        public int CreateDepartment(CreateDepartmentDto createDepartmentDto)
         {
             var res = _departmentRepository.Add(createDepartmentDto.ToEntity());
             return res;
