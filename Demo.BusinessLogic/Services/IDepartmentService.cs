@@ -5,8 +5,8 @@ namespace Demo.BusinessLogic.Services
     public interface IDepartmentService
     {
         int CreateDepartment(CreateDepartmentDto createDepartmentDto);
-        IEnumerable<DepartmentDTO> GetAllDepartments();
+        IEnumerable<DepartmentDto> GetAllDepartments();
         DepartmentDetailsDto? GetDepartmentByID(int id);
-        int UpdateDepartment(CreateDepartmentDto createDepartmentDto);
+        int UpdateDepartment(UpdateDepartmentDto updateDepartmentDto);
     }
 }

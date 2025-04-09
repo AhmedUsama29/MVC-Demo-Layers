@@ -13,12 +13,12 @@ namespace Demo.BusinessLogic.Services
     public class DepartmentService(IDepartmentRepository _departmentRepository) : IDepartmentService
     {
 
-        public IEnumerable<DepartmentDTO> GetAllDepartments()
+        public IEnumerable<DepartmentDto> GetAllDepartments()
         {
 
             var departments = _departmentRepository.GetAll();
 
-            var DepartmentsToReturn = departments.Select(d => new DepartmentDTO
+            var DepartmentsToReturn = departments.Select(d => new DepartmentDto
             {
 
                 id = d.Id,
@@ -47,9 +47,9 @@ namespace Demo.BusinessLogic.Services
             return res;
         }
 
-        public int UpdateDepartment(CreateDepartmentDto createDepartmentDto)
+        public int UpdateDepartment(UpdateDepartmentDto updateDepartmentDto)
         {
-            var res = _departmentRepository.Update(createDepartmentDto.ToEntity());
+            var res = _departmentRepository.Update(updateDepartmentDto.ToEntity());
             return res;
         }
 
