@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using Demo.DataAccess.Models.DepartmentModels;
+using Demo.DataAccess.Models.EmployeeModels;
+using System.Reflection;
 
 namespace Demo.DataAccess.Contexts
 {
@@ -21,6 +23,7 @@ namespace Demo.DataAccess.Contexts
             //modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         }
         public DbSet<Department> Departments { get; set; }
+        public DbSet<Employee> Employees { get; set; }
 
     }
 }

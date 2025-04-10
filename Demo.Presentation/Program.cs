@@ -1,6 +1,7 @@
 using Demo.BusinessLogic.Services;
 using Demo.DataAccess.Contexts;
 using Demo.DataAccess.Repositories;
+using Demo.DataAccess.Repositories.Classes;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -16,12 +17,13 @@ namespace Demo.Presentation
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<AppDBContext>(options => {
                 options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]);
-                //options.UseSqlServer(builder.Configuration.GetSection("ConnectionString")["DefaultConnection"]);
-                //options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"));
+                //options.UseSqlServer(builder.Configuration.GetSection("ConnectionStrings")["DefaultConnection"]);
+                //options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStrings"));
 
             });
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+            
 
             #endregion
 

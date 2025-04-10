@@ -1,6 +1,6 @@
-﻿
+﻿using Demo.DataAccess.Models.SharedModels;
 
-namespace Demo.DataAccess.Models
+namespace Demo.DataAccess.Models.DepartmentModels
 {
     public class Department : BaseEntity
     {

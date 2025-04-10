@@ -1,5 +1,5 @@
 ﻿using Demo.BusinessLogic.DTOs;
-using Demo.DataAccess.Models;
+using Demo.DataAccess.Models.DepartmentModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
