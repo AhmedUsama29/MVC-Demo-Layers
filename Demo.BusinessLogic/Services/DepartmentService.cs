@@ -53,5 +53,16 @@ namespace Demo.BusinessLogic.Services
             return res;
         }
 
+        public bool DeleteDepartment(int id)
+        {
+            var department = _departmentRepository.GetById(id);
+            if (department is null) return false;
+            else
+            {
+                var res = _departmentRepository.Remove(department);
+                return res > 0 ? true : false;
+            }
+        }
+
     }
 }

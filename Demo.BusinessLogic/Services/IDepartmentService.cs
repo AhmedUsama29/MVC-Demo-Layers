@@ -8,5 +8,7 @@ namespace Demo.BusinessLogic.Services
         IEnumerable<DepartmentDto> GetAllDepartments();
         DepartmentDetailsDto? GetDepartmentByID(int id);
         int UpdateDepartment(UpdateDepartmentDto updateDepartmentDto);
+
+        bool DeleteDepartment(int id);
     }
 }
