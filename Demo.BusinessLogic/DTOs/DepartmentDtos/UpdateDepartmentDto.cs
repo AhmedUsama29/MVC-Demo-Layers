@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Demo.BusinessLogic.DTOs
+namespace Demo.BusinessLogic.DTOs.DepartmentDtos
 {
-    public class DepartmentDto
+    public class UpdateDepartmentDto
     {
 
-        public int id { get; set; }
+        public int Id { get; set; }
 
-        public required string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         public int Code { get; set; }
 
@@ -19,6 +19,5 @@ namespace Demo.BusinessLogic.DTOs
 
         public DateTime? DateOfCreation { get; set; }
 
-        
     }
 }

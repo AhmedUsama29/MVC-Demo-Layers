@@ -1,4 +1,4 @@
-﻿using Demo.BusinessLogic.DTOs;
+﻿using Demo.BusinessLogic.DTOs.DepartmentDtos;
 using Demo.DataAccess.Models.DepartmentModels;
 using System;
 using System.Collections.Generic;

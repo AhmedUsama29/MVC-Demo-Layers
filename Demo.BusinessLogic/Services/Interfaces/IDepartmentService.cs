@@ -1,6 +1,6 @@
-﻿using Demo.BusinessLogic.DTOs;
+﻿using Demo.BusinessLogic.DTOs.DepartmentDtos;
 
-namespace Demo.BusinessLogic.Services
+namespace Demo.BusinessLogic.Services.Interfaces
 {
     public interface IDepartmentService
     {

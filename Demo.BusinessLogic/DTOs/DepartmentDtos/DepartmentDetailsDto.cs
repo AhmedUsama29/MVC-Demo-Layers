@@ -5,22 +5,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Demo.BusinessLogic.DTOs
+namespace Demo.BusinessLogic.DTOs.DepartmentDtos
 {
     public class DepartmentDetailsDto
     {
 
         public DepartmentDetailsDto(Department d)
         {
-            this.id = d.Id;
-            this.Name = d.Name;
-            this.Code = d.Code;
-            this.Description = d.Description;
-            this.DateOfCreation = d.CreatedOn;
-            this.CreatedBy = d.CreatedBy;
-            this.LastModifiedBy = d.LastModifiedBy;
-            this.IsDeleted = d.IsDeleted;
-            this.LastModifiedOn = d.LastModifiedOn;
+            id = d.Id;
+            Name = d.Name;
+            Code = d.Code;
+            Description = d.Description;
+            DateOfCreation = d.CreatedOn;
+            CreatedBy = d.CreatedBy;
+            LastModifiedBy = d.LastModifiedBy;
+            IsDeleted = d.IsDeleted;
+            LastModifiedOn = d.LastModifiedOn;
         }
 
         public int id { get; set; }
