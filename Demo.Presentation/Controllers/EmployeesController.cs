@@ -199,7 +199,7 @@ namespace Demo.Presentation.Controllers
                 }
             }
 
-            return RedirectToAction(nameof(Delete));
+            return RedirectToAction(nameof(Delete), new {id});
         }
 
         #endregion
