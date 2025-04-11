@@ -18,8 +18,6 @@ namespace Demo.Presentation.Controllers
             return View(Employees);
         }
 
-        //Don't Forget to Set the (soft) Deleted Employees to not show in the list [Get All] & ... 
-
 
         #region Create
 
@@ -160,6 +158,48 @@ namespace Demo.Presentation.Controllers
 
             return View(editViewModel);
 
+        }
+
+        #endregion
+
+        #region Delete
+
+        [HttpGet]
+        public IActionResult Delete(int? id)
+        {
+            if (!id.HasValue) return BadRequest();
+            var employee = _employeeService.GetEmployeeByID(id.Value);
+            if (employee == null) return NotFound();
+            return View(employee);
+        }
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                bool res = _employeeService.DeleteEmployee(id);
+                if (res)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError(String.Empty, "Error in deleting employee");
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_env.IsDevelopment())
+                {
+                    ModelState.AddModelError(String.Empty, ex.Message);
+                }
+                else
+                {
+                    _logger.LogError(ex.Message);
+                }
+            }
+
+            return RedirectToAction(nameof(Delete));
         }
 
         #endregion

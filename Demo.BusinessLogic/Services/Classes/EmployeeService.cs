@@ -3,12 +3,7 @@ using Demo.BusinessLogic.DTOs.EmployeeDtos;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Models.EmployeeModels;
 using Demo.DataAccess.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Demo.BusinessLogic.Services.Classes
 {

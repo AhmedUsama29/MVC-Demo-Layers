@@ -7,9 +7,9 @@ namespace Demo.DataAccess.Repositories.Classes
         public IEnumerable<TEntity> GetAll(bool withTracking = false)
         {
             if (withTracking)
-                return _DbContext.Set<TEntity>().ToList();
+                return _DbContext.Set<TEntity>().Where(entity => entity.IsDeleted == false).ToList();
             else
-                return _DbContext.Set<TEntity>().AsNoTracking().ToList();
+                return _DbContext.Set<TEntity>().Where(entity => entity.IsDeleted == false).AsNoTracking().ToList();
         }
         //GetById
         public TEntity? GetById(int id)
