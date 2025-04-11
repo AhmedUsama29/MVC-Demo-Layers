@@ -103,7 +103,8 @@ namespace Demo.Presentation.Controllers
 
         }
         [HttpPost]
-        public IActionResult Edit([FromRoute] int id,DepartmentEditViewModel departmentEditViewModel) {
+        public IActionResult Edit([FromRoute] int id,DepartmentEditViewModel departmentEditViewModel) 
+        {
 
         
             if (!ModelState.IsValid) return View(departmentEditViewModel);
