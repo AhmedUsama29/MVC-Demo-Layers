@@ -42,11 +42,17 @@ namespace Demo.Presentation.Controllers
                     };
 
                     int res = _departmentService.CreateDepartment(dto);
-                    if (res > 0) return RedirectToAction(nameof(Index));
+                    var message = string.Empty;
+
+                    if (res > 0) message = "Department created successfully";
                     else
                     {
-                        ModelState.AddModelError(String.Empty, "Error in creating department");
+                                //ModelState.AddModelError(String.Empty, "Error in creating department");
+                                message = "Error in creating department";
                     }
+
+                    TempData["Message"] = message;
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
                 {

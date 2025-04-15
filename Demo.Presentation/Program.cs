@@ -42,8 +42,6 @@ namespace Demo.Presentation
 
             var app = builder.Build();
 
-
-
             #region Configure the HTTP request pipeline
             if (!app.Environment.IsDevelopment())
             {
