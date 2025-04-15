@@ -36,5 +36,10 @@ namespace Demo.DataAccess.Repositories.Classes
 
         }
 
+        public IEnumerable<TResult> GetAll<TResult>(System.Linq.Expressions.Expression<Func<TEntity, TResult>> selector)
+        {
+            return _DbContext.Set<TEntity>()
+                             .Select(selector).ToList();
+        }
     }
 }
