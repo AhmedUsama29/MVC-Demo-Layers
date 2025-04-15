@@ -5,6 +5,7 @@ using Demo.DataAccess.Contexts;
 using Demo.DataAccess.Repositories;
 using Demo.DataAccess.Repositories.Classes;
 using Demo.DataAccess.Repositories.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -18,7 +19,9 @@ namespace Demo.Presentation
 
             #region Add services to the container
 
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews(options => {
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            });
 
             builder.Services.AddDbContext<AppDBContext>(options => {
                 options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]);
