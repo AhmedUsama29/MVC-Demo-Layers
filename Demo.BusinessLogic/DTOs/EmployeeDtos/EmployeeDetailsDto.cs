@@ -25,5 +25,7 @@ namespace Demo.BusinessLogic.DTOs.EmployeeDtos
         public int LastModifiedBy { get; set; }
         public DateTime LastModifiedOn { get; set; }
 
+        public int? DepartmentId { get; set; }
+
     }
 }

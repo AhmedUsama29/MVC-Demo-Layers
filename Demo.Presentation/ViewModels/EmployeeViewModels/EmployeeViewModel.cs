@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Demo.Presentation.ViewModels.EmployeeViewModels
 {
-    public class EmployeeEditViewModel
+    public class EmployeeViewModel
     {
         [Required]
         [MaxLength(50, ErrorMessage = "Max length should be 50 character")]
@@ -28,6 +28,8 @@ namespace Demo.Presentation.ViewModels.EmployeeViewModels
         public DateOnly HiringDate { get; set; }
         public Gender Gender { get; set; }
         public EmployeeType EmployeeType { get; set; }
+        [Display(Name = "Department")]
+        public int? DepartmentId { get; set; }
 
     }
 }

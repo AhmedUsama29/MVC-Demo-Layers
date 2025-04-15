@@ -10,7 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Demo.Presentation.Controllers
 {
     public class EmployeesController(IEmployeeService _employeeService, 
-                                        ILogger<EmployeesController> _logger , IWebHostEnvironment _env) : Controller
+                                        ILogger<EmployeesController> _logger , 
+                                        IWebHostEnvironment _env) : Controller
     {
         public IActionResult Index()
         {
@@ -26,17 +27,34 @@ namespace Demo.Presentation.Controllers
         public IActionResult Create()
         {
 
+            //ViewData["Departments"] = _departmentService.GetAllDepartments();
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(CreateEmployeeDto createEmployeeDto)
+        public IActionResult Create(EmployeeViewModel employeeViewModel)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    int res = _employeeService.CreateEmployee(createEmployeeDto);
+
+                    var CreateEmployeeDto = new CreateEmployeeDto() 
+                    {
+                        Name= employeeViewModel.Name,
+                        Age = employeeViewModel.Age,
+                        Address = employeeViewModel.Address,
+                        Salary = employeeViewModel.Salary,
+                        IsActive = employeeViewModel.IsActive,
+                        Email = employeeViewModel.Email,
+                        PhoneNumber = employeeViewModel.PhoneNumber,
+                        HiringDate = employeeViewModel.HiringDate,
+                        DepartmentId = employeeViewModel.DepartmentId,
+                        EmployeeType = employeeViewModel.EmployeeType,
+                        Gender = employeeViewModel.Gender,
+                    };
+
+                    int res = _employeeService.CreateEmployee(CreateEmployeeDto);
                     if (res > 0)
                     {
                         return RedirectToAction(nameof(Index));
@@ -59,7 +77,7 @@ namespace Demo.Presentation.Controllers
                     }
                 }
             }
-             return View(createEmployeeDto);
+             return View(employeeViewModel);
         }
 
         #endregion
@@ -83,6 +101,8 @@ namespace Demo.Presentation.Controllers
 
         public IActionResult Edit(int? id)
         {
+            //ViewData["Departments"] = _departmentService.GetAllDepartments();
+
             if (!id.HasValue)
             {
                 return BadRequest();
@@ -91,7 +111,7 @@ namespace Demo.Presentation.Controllers
             if (emp is null) return NotFound();
             else
             {
-                var MappedEmp = new EmployeeEditViewModel() {
+                var MappedEmp = new EmployeeViewModel() {
 
                     Name = emp.Name,
                     Age = emp.Age,
@@ -102,7 +122,8 @@ namespace Demo.Presentation.Controllers
                     PhoneNumber = emp.PhoneNumber,
                     HiringDate = emp.HiringDate,
                     Gender = (Gender)Enum.Parse(typeof(Gender),emp.Gender),
-                    EmployeeType = (EmployeeType)Enum.Parse(typeof(EmployeeType), emp.EmployeeType)
+                    EmployeeType = (EmployeeType)Enum.Parse(typeof(EmployeeType), emp.EmployeeType),
+                    DepartmentId = emp.DepartmentId,
                 };
                 return View(MappedEmp);
             }
@@ -110,9 +131,10 @@ namespace Demo.Presentation.Controllers
 
         [HttpPost]
 
-        public IActionResult Edit([FromRoute]int id,EmployeeEditViewModel editViewModel) 
+        public IActionResult Edit([FromRoute]int? id,EmployeeViewModel editViewModel) 
         {
 
+            if (!id.HasValue) return BadRequest();
             if (!ModelState.IsValid) return View(editViewModel);
 
             try
@@ -120,7 +142,7 @@ namespace Demo.Presentation.Controllers
 
                     var UpdateEmpDto = new UpdateEmployeeDto() {
                     
-                        Id = id,
+                        Id = id.Value,
                         Name = editViewModel.Name,
                         Age = editViewModel.Age,
                         Address = editViewModel.Address,
@@ -130,7 +152,8 @@ namespace Demo.Presentation.Controllers
                         PhoneNumber = editViewModel.PhoneNumber,
                         HiringDate= editViewModel.HiringDate,
                         Gender=editViewModel.Gender,
-                        EmployeeType=editViewModel.EmployeeType
+                        EmployeeType=editViewModel.EmployeeType,
+                        DepartmentId = editViewModel.DepartmentId,
                     };
                     int res = _employeeService.UpdateEmployee(UpdateEmpDto);
 
