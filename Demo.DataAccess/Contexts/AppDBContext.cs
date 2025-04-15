@@ -1,5 +1,6 @@
 ﻿using Demo.DataAccess.Models.DepartmentModels;
 using Demo.DataAccess.Models.EmployeeModels;
+using Microsoft.Extensions.Options;
 using System.Reflection;
 
 namespace Demo.DataAccess.Contexts
@@ -12,7 +13,7 @@ namespace Demo.DataAccess.Contexts
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
-        //    //optionsBuilder.UseSqlServer("ConnectionString");
+
         //}
 
 

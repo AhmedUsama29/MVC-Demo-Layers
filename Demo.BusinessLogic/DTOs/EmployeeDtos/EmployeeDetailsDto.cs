@@ -27,5 +27,7 @@ namespace Demo.BusinessLogic.DTOs.EmployeeDtos
 
         public int? DepartmentId { get; set; }
 
+        public string? Department { get; set; }
+
     }
 }
