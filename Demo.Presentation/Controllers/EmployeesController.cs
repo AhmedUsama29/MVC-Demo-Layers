@@ -127,6 +127,7 @@ namespace Demo.Presentation.Controllers
                     Gender = (Gender)Enum.Parse(typeof(Gender),emp.Gender),
                     EmployeeType = (EmployeeType)Enum.Parse(typeof(EmployeeType), emp.EmployeeType),
                     DepartmentId = emp.DepartmentId,
+                    //ImageName = emp.ImageName
                 };
                 return View(MappedEmp);
             }

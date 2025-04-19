@@ -1,11 +1,19 @@
 ﻿using Demo.DataAccess.Models.EmployeeModels;
 using Demo.DataAccess.Models.SharedModels;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 
 namespace Demo.Presentation.ViewModels.EmployeeViewModels
 {
     public class EmployeeViewModel
     {
+        ////may remove later
+        //public EmployeeViewModel()
+        //{
+        //    ImageName = Image?.Name;
+
+        //}
+
         [Required]
         [MaxLength(50, ErrorMessage = "Max length should be 50 character")]
         [MinLength(5, ErrorMessage = "Min length should be 5 characters")]
@@ -33,5 +41,7 @@ namespace Demo.Presentation.ViewModels.EmployeeViewModels
 
         public IFormFile? Image { get; set; }
 
+        ////may remove later
+        //public string? ImageName { get; set; }
     }
 }
