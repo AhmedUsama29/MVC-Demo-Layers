@@ -7,7 +7,7 @@ using Demo.DataAccess.Repositories.Interfaces;
 
 namespace Demo.BusinessLogic.Services.Classes
 {
-    public class EmployeeService(IEmployeeRepository _employeeRepository, IMapper _mapper) : IEmployeeService
+    public class EmployeeService(IUnitOfWork _unitOfWork, IMapper _mapper) : IEmployeeService
     {
 
         public IEnumerable<GetEmployeeDto> GetAllEmployees(string? EmployeeSearchName)
@@ -16,11 +16,11 @@ namespace Demo.BusinessLogic.Services.Classes
             IEnumerable<Employee> employees;
 
             if (string.IsNullOrEmpty(EmployeeSearchName)){
-                employees = _employeeRepository.GetAll();
+                employees = _unitOfWork.EmployeeRepository.GetAll();
             }
             else
             {
-                employees = _employeeRepository.GetAll(e => (e.Name.ToLower()).Contains(EmployeeSearchName.ToLower()));
+                employees = _unitOfWork.EmployeeRepository.GetAll(e => (e.Name.ToLower()).Contains(EmployeeSearchName.ToLower()));
             }
 
             //Dest => Source
@@ -29,7 +29,7 @@ namespace Demo.BusinessLogic.Services.Classes
 
         public EmployeeDetailsDto? GetEmployeeByID(int id)
         {
-            var emp = _employeeRepository.GetById(id);
+            var emp = _unitOfWork.EmployeeRepository.GetById(id);
 
             return emp is null ? null
                 : _mapper.Map<EmployeeDetailsDto>(emp);
@@ -39,7 +39,8 @@ namespace Demo.BusinessLogic.Services.Classes
         {
             var emp = _mapper.Map<Employee>(createemployeeDto);
 
-            return _employeeRepository.Add(emp);
+            _unitOfWork.EmployeeRepository.Add(emp);
+            return _unitOfWork.SaveChanges();
         }
 
 
@@ -47,18 +48,19 @@ namespace Demo.BusinessLogic.Services.Classes
         {
             var emp = _mapper.Map<Employee>(updateemployeeDto);
 
-            return _employeeRepository.Update(emp);
+            _unitOfWork.EmployeeRepository.Update(emp);
+            return _unitOfWork.SaveChanges();
         }
 
         public bool DeleteEmployee(int id)
         {
-            var emp = _employeeRepository.GetById(id);
+            var emp = _unitOfWork.EmployeeRepository.GetById(id);
             if (emp is null) return false;
             else 
             { 
                 emp.IsDeleted = true;
-                int res = _employeeRepository.Update(emp);
-                return (res > 0) ? true : false;
+                _unitOfWork.EmployeeRepository.Update(emp);
+                return (_unitOfWork.SaveChanges() > 0) ? true : false;
             }
         }
 

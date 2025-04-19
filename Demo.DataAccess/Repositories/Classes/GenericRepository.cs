@@ -34,22 +34,19 @@ namespace Demo.DataAccess.Repositories.Classes
         } 
         #endregion
         //Add
-        public int Add(TEntity entity)
+        public void Add(TEntity entity)
         {
             _DbContext.Set<TEntity>().Add(entity);
-            return _DbContext.SaveChanges();
         }
         //Edit
-        public int Update(TEntity entity)
+        public void Update(TEntity entity)
         {
             _DbContext.Set<TEntity>().Update(entity);
-            return _DbContext.SaveChanges();
         }
         //Delete
-        public int Remove(TEntity entity)
+        public void Remove(TEntity entity)
         {
             _DbContext.Set<TEntity>().Remove(entity);
-            return _DbContext.SaveChanges();
 
         }
 
