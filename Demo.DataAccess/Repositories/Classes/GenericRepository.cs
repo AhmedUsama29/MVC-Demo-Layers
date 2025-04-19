@@ -1,9 +1,12 @@
 ﻿
+using System.Linq.Expressions;
+
 namespace Demo.DataAccess.Repositories.Classes
 {
     public class GenericRepository<TEntity>(AppDBContext _DbContext) : IGenericRepository<TEntity> where TEntity : BaseEntity
     {
 
+        #region Get
         public IEnumerable<TEntity> GetAll(bool withTracking = false)
         {
             if (withTracking)
@@ -11,11 +14,25 @@ namespace Demo.DataAccess.Repositories.Classes
             else
                 return _DbContext.Set<TEntity>().Where(entity => entity.IsDeleted == false).AsNoTracking().ToList();
         }
+        public IEnumerable<TResult> GetAll<TResult>(Expression<Func<TEntity, TResult>> selector)
+        {
+            return _DbContext.Set<TEntity>()
+                             .Select(selector).ToList();
+        }
+
+        public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> filter)
+        {
+            return _DbContext.Set<TEntity>()
+                              .Where(entity => entity.IsDeleted == false)
+                              .Where(filter).ToList();
+        }
+
         //GetById
         public TEntity? GetById(int id)
         {
             return _DbContext.Set<TEntity>().Find(id);
-        }
+        } 
+        #endregion
         //Add
         public int Add(TEntity entity)
         {
@@ -36,10 +53,6 @@ namespace Demo.DataAccess.Repositories.Classes
 
         }
 
-        public IEnumerable<TResult> GetAll<TResult>(System.Linq.Expressions.Expression<Func<TEntity, TResult>> selector)
-        {
-            return _DbContext.Set<TEntity>()
-                             .Select(selector).ToList();
-        }
+     
     }
 }

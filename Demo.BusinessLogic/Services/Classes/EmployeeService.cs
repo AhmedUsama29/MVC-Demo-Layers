@@ -10,11 +10,21 @@ namespace Demo.BusinessLogic.Services.Classes
     public class EmployeeService(IEmployeeRepository _employeeRepository, IMapper _mapper) : IEmployeeService
     {
 
-        public IEnumerable<GetEmployeeDto> GetAllEmployees()
+        public IEnumerable<GetEmployeeDto> GetAllEmployees(string? EmployeeSearchName)
         {
-            var emps = _employeeRepository.GetAll();
+
+            IEnumerable<Employee> employees;
+
+            if (string.IsNullOrEmpty(EmployeeSearchName)){
+                employees = _employeeRepository.GetAll();
+            }
+            else
+            {
+                employees = _employeeRepository.GetAll(e => (e.Name.ToLower()).Contains(EmployeeSearchName.ToLower()));
+            }
+
             //Dest => Source
-            return _mapper.Map<IEnumerable<GetEmployeeDto>>(emps);
+            return _mapper.Map<IEnumerable<GetEmployeeDto>>(employees);
         }
 
         public EmployeeDetailsDto? GetEmployeeByID(int id)

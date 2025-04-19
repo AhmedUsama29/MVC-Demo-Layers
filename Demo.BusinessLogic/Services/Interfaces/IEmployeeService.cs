@@ -12,7 +12,7 @@ namespace Demo.BusinessLogic.Services.Interfaces
     {
 
         int CreateEmployee(CreateEmployeeDto createemployeeDto);
-        IEnumerable<GetEmployeeDto> GetAllEmployees();
+        IEnumerable<GetEmployeeDto> GetAllEmployees(string ?EmployeeSearchName);
         EmployeeDetailsDto? GetEmployeeByID(int id);
         int UpdateEmployee(UpdateEmployeeDto updateemployeeDto);
         bool DeleteEmployee(int id);

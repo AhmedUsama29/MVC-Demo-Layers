@@ -12,7 +12,10 @@ namespace Demo.DataAccess.Repositories.Interfaces
     {
 
         int Add(TEntity entity);
+
         IEnumerable<TEntity> GetAll(bool withTracking = false);
+
+        IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> filter);    
 
         IEnumerable<TResult> GetAll<TResult>(Expression<Func<TEntity,TResult>> selector);
         TEntity? GetById(int id);
