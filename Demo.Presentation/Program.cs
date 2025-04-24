@@ -49,6 +49,11 @@ namespace Demo.Presentation
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                             .AddEntityFrameworkStores<AppDBContext>();
 
+            //builder.Services.ConfigureApplicationCookie(config => 
+            //{
+            //    config.LoginPath = "Account/LogIn";
+            //});
+
             #endregion
 
             var app = builder.Build();
