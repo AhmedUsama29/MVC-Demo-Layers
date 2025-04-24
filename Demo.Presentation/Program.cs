@@ -3,9 +3,11 @@ using Demo.BusinessLogic.Services.AttatchmentService;
 using Demo.BusinessLogic.Services.Classes;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Contexts;
+using Demo.DataAccess.Models.IdentityModels;
 using Demo.DataAccess.Repositories;
 using Demo.DataAccess.Repositories.Classes;
 using Demo.DataAccess.Repositories.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -44,6 +46,9 @@ namespace Demo.Presentation
 
             builder.Services.AddScoped<IAttatchmentService, AttatchmentService>();
 
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                            .AddEntityFrameworkStores<AppDBContext>();
+
             #endregion
 
             var app = builder.Build();
@@ -66,7 +71,9 @@ namespace Demo.Presentation
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Account}/{action=LogIn}");
+            //  pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
             app.Run();
         }
