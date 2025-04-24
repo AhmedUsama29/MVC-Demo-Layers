@@ -47,7 +47,8 @@ namespace Demo.Presentation
             builder.Services.AddScoped<IAttatchmentService, AttatchmentService>();
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-                            .AddEntityFrameworkStores<AppDBContext>();
+                            .AddEntityFrameworkStores<AppDBContext>()
+                            .AddDefaultTokenProviders();
 
             //builder.Services.ConfigureApplicationCookie(config => 
             //{
