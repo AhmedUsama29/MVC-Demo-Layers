@@ -7,12 +7,6 @@ namespace Demo.Presentation.ViewModels.EmployeeViewModels
 {
     public class EmployeeViewModel
     {
-        ////may remove later
-        //public EmployeeViewModel()
-        //{
-        //    ImageName = Image?.Name;
-
-        //}
 
         [Required]
         [MaxLength(50, ErrorMessage = "Max length should be 50 character")]

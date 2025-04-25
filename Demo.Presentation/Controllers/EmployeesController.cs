@@ -30,8 +30,6 @@ namespace Demo.Presentation.Controllers
 
         public IActionResult Create()
         {
-
-            //ViewData["Departments"] = _departmentService.GetAllDepartments();
             return View();
         }
 
@@ -106,7 +104,6 @@ namespace Demo.Presentation.Controllers
 
         public IActionResult Edit(int? id)
         {
-            //ViewData["Departments"] = _departmentService.GetAllDepartments();
 
             if (!id.HasValue)
             {

@@ -56,9 +56,6 @@ namespace Demo.BusinessLogic.Services.Classes
         public int UpdateEmployee(UpdateEmployeeDto updateemployeeDto)
         {
 
-            //var existingEmp = _unitOfWork.EmployeeRepository.GetById(updateemployeeDto.Id);
-
-            //if (existingEmp is null) return 0;
 
             var emp = _mapper.Map<Employee>(updateemployeeDto);
 
