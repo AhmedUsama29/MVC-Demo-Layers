@@ -96,7 +96,6 @@ namespace Demo.Presentation.Controllers
         } 
         #endregion
 
-
         #region ForgetPassword
 
         [HttpGet]
@@ -150,8 +149,6 @@ namespace Demo.Presentation.Controllers
         }
 
         #endregion
-
-
 
         #region Reset Password
 

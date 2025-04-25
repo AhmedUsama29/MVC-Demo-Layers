@@ -129,8 +129,11 @@ namespace Demo.Presentation.Controllers
                     Gender = (Gender)Enum.Parse(typeof(Gender),emp.Gender),
                     EmployeeType = (EmployeeType)Enum.Parse(typeof(EmployeeType), emp.EmployeeType),
                     DepartmentId = emp.DepartmentId,
-                    //ImageName = emp.ImageName
+                    ImageName = emp.ImageName
                 };
+
+                TempData["OldImageName"] = emp.ImageName;
+
                 return View(MappedEmp);
             }
         }
@@ -160,6 +163,9 @@ namespace Demo.Presentation.Controllers
                         Gender=editViewModel.Gender,
                         EmployeeType=editViewModel.EmployeeType,
                         DepartmentId = editViewModel.DepartmentId,
+                        Image = editViewModel.Image,
+                        ImageName = TempData["OldImageName"] as string
+
                     };
                     int res = _employeeService.UpdateEmployee(UpdateEmpDto);
 

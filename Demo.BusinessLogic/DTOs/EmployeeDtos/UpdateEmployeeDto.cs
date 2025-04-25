@@ -39,7 +39,9 @@ namespace Demo.BusinessLogic.DTOs.EmployeeDtos
 
         public int? DepartmentId { get; set; }
 
-        //public string? Image { get; set; }
+        public IFormFile? Image { get; set; }
+
+        public string? ImageName { get; set; }
 
     }
 }

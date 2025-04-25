@@ -1,5 +1,4 @@
-﻿
-@model EmployeeViewModel
+﻿@model EmployeeViewModel
 @inject IDepartmentService _departmentService
 @{
 
@@ -8,50 +7,64 @@
 }
 
 
-    <div class="form-group mb-3 col-6">
-        <label class="form-label" asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
-    </div>
+<div class="form-group mb-3 col-6">
+    <label class="form-label" asp-for="Name"></label>
+    <input asp-for="Name" class="form-control" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+</div>
 
-
-@if (Model.Image is null)
+@if (Model is not null && !string.IsNullOrEmpty(Model.ImageName))
 {
     <div class="form-group mb-3 col-6">
-        <label class="form-label" asp-for="Image"></label>
-        <input asp-for="Image" class="form-control" />
-        <span asp-validation-for="Image" class="text-danger"></span>
+        <label class="form-label">Current Image</label>
+        <div class="position-relative d-inline-block" style="width: 150px; height: 150px;">
+            <img src="~/Files/Images/@Model.ImageName"
+            alt="Profile Picture"
+            class="img-thumbnail rounded-circle shadow"
+            style="width: 100%; height: 100%; object-fit: cover;" />
+        </div>
     </div>
 }
-@* else
+else
 {
-    <div class="position-relative d-inline-block" style="width: 200px; height: 200px;">
-        <img src="~/Files/Images/@Model.ImageName"
-             alt="Profile Picture"
-             class="img-fluid rounded-circle border border-2 shadow"
-             style="width: 100%; height: 100%; object-fit: cover;" />
-
-        <a href="/EditImage"
-           class="d-flex justify-content-center align-items-center text-white"
-           style="
-               position: absolute;
-               top: 0;
-               left: 0;
-               width: 100%;
-               height: 100%;
-               background-color: rgba(0,0,0,0.5);
-               opacity: 0;
-               border-radius: 50%;
-               text-decoration: none;
-               transition: opacity 0.3s ease-in-out;"
-           onmouseover="this.style.opacity='1'"
-           onmouseout="this.style.opacity='0'">
-            <i class="bi bi-pencil-square fs-3"></i>
-        </a>
+    <div class="form-group mb-3 col-6">
+        <label class="form-label">Current Image</label>
+        <div class="position-relative d-inline-block" style="width: 150px; height: 150px;">
+            <img src="~/Files/Images/user.png"
+                 alt="Default Profile"
+                 class="img-thumbnail rounded-circle shadow"
+                 style="width: 100%; height: 100%; object-fit: cover;" />
+        </div>
     </div>
 
 }
- *@
+
+@* @{ *@
+@*     var imagePath = Model?.ImageName != null *@
+@*         ? Url.Content("~/Files/Images/" + Model.ImageName) *@
+@*         : Url.Content("~/images/default-user.png"); *@
+@* } *@
+
+@* <div class="form-group mb-3 col-6"> *@
+@*     <label class="form-label">Current Image</label> *@
+@*     <div class="position-relative d-inline-block" style="width: 150px; height: 150px;"> *@
+@*         <img src="@imagePath" *@
+@*              alt="Profile Picture" *@
+@*              class="img-thumbnail rounded-circle shadow" *@
+@*              style="width: 100%; height: 100%; object-fit: cover;" /> *@
+@*     </div> *@
+@* </div> *@
+
+
+
+<div class="form-group mb-3 col-6">
+    <label class="form-label" asp-for="Image">Upload New Image (Optional)</label>
+    <input asp-for="Image" class="form-control" />
+    <span asp-validation-for="Image" class="text-danger"></span>
+</div>
+
+
+
 
 
 
