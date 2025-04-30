@@ -4,15 +4,19 @@ using Demo.BusinessLogic.Services.Classes; // remove
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.Presentation.ViewModels.DepartmentViewModels;
 using Demo.Presentation.ViewModels.RolesViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Presentation.Controllers
 {
+    [Authorize]
     public class RolesController(IRolesServices _rolesServices,
         ILogger<DepartmentController> _logger,
         IWebHostEnvironment _env) : Controller
     {
+
+
         public IActionResult Index(string? RoleSearchName)
         {
 
@@ -154,6 +158,59 @@ namespace Demo.Presentation.Controllers
                 }
             }
             return View(viewModel);
+        }
+
+        #endregion
+
+        #region Delete
+
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(string? id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return BadRequest();
+            }
+            var role = await _rolesServices.GetRoleByIdAsync(id);
+            if (role is null) return NotFound();
+
+            return View(role);
+
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirm([FromRoute] string id)
+        {
+
+            if (string.IsNullOrEmpty(id)) return BadRequest();
+            var role = await _rolesServices.GetRoleByIdAsync(id);
+            if (role == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                var res = await _rolesServices.DeleteRoleAsync(id);
+                if (res.Succeeded) return RedirectToAction(nameof(Index));
+                else
+                {
+                    ModelState.AddModelError(String.Empty, "Error in deleting department");
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_env.IsDevelopment())
+                {
+                    ModelState.AddModelError(String.Empty, ex.Message);
+                }
+                else
+                {
+                    _logger.LogError(ex.Message);
+                }
+            }
+            return RedirectToAction(nameof(Delete), new { id });
         }
 
         #endregion
