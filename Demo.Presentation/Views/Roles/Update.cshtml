@@ -1,0 +1,40 @@
+﻿@model UpdateRoleViewModel
+
+@{
+    ViewData["Title"] = "Edit Role";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="my-5 w-75">Edit Role: @Model.Name</h1>
+
+<!-- Validation Summary -->
+<div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+<!-- Start Form -->
+<form asp-action="Update" method="post" class="w-75">
+    <div class="row">
+        <!-- Hidden or readonly ID -->
+        <div class="form-group col-6 mb-3">
+            <label class="col-form-label" asp-for="Id"></label>
+            <input asp-for="Id" class="form-control" readonly />
+        </div>
+
+        <!-- Editable Name -->
+        <div class="form-group col-12 mb-3">
+            <label class="form-label" asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="mt-4">
+        <button type="submit" class="btn btn-warning">Save Changes</button>
+        <a asp-action="Index" class="btn btn-outline-dark ms-2">Back To List</a>
+    </div>
+</form>
+
+@section ValidationScripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

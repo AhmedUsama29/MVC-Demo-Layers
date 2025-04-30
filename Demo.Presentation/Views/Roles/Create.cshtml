@@ -13,7 +13,11 @@
 
     <form class="col-8" method="post" asp-controller="Roles" asp-action="Create">
 
-        <partial name="PartialViews/CreateEditPartialView" />
+        <div class="form-group mb-3">
+            <label class="form-label" asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
 
         <div class="mt-4 m-auto">
             <input class="btn btn-primary" type="submit" value="Create" />
