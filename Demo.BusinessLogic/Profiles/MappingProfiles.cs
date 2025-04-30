@@ -38,6 +38,10 @@ namespace Demo.BusinessLogic.Profiles
             .ForMember(dest => dest.Id, option => option.MapFrom(IR => IR.Id))
             .ForMember(dest => dest.Name, option => option.MapFrom(IR => IR.Name));
 
+            CreateMap<CreateRolesDto, IdentityRole>()
+            .ForMember(dest => dest.Name, option => option.MapFrom(dto => dto.Name));
+
+
         }
 
     }

@@ -1,4 +1,6 @@
 ﻿using Demo.BusinessLogic.DTOs.DepartmentDtos;
+using Demo.BusinessLogic.DTOs.RolesDtos;
+using Demo.BusinessLogic.Services.Classes; // remove
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.Presentation.ViewModels.DepartmentViewModels;
 using Demo.Presentation.ViewModels.RolesViewModels;
@@ -7,25 +9,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Presentation.Controllers
 {
-    public class RolesController(IRolesServices _rolesServices
-        , RoleManager<IdentityRole> _roleManager,   //remove
+    public class RolesController(IRolesServices _rolesServices,
         ILogger<DepartmentController> _logger,
         IWebHostEnvironment _env) : Controller
     {
         public IActionResult Index(string? RoleSearchName)
         {
 
-            //var Roles = _roleManager.Roles;
-            //IEnumerable<GetRolesViewModel> model = Roles.Select(r => new GetRolesViewModel
-            //{
-            //    id = r.Id,
-            //    Name = r.Name
-            //});
-
             var model = _rolesServices.GetAllRoles(RoleSearchName);
 
             return View(model);
         }
+
+        #region Create
 
         [HttpGet]
         public IActionResult Create()
@@ -34,18 +30,19 @@ namespace Demo.Presentation.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateRoleViewModel model)
+        public async Task<IActionResult> Create(CreateRoleViewModel model)
         {
             if (ModelState.IsValid)
             {
 
                 try
                 {
-                    var role = new IdentityRole
+                    var role = new CreateRolesDto
                     {
                         Name = model.Name
                     };
-                    var result = _roleManager.CreateAsync(role).Result;
+
+                    var result = await _rolesServices.CreateRoleAsync(role);
                     if (result.Succeeded)
                     {
                         return RedirectToAction(nameof(Index));
@@ -57,6 +54,7 @@ namespace Demo.Presentation.Controllers
                             ModelState.AddModelError("", error.Description);
                         }
                     }
+
                 }
                 catch (Exception ex)
                 {
@@ -76,7 +74,12 @@ namespace Demo.Presentation.Controllers
 
             return View(model);
         }
+        #endregion
 
+        #region Details
 
+        
+
+        #endregion
     }
 }

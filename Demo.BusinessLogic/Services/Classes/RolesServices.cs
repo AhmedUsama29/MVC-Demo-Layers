@@ -7,6 +7,7 @@ using Demo.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,8 +15,7 @@ using System.Threading.Tasks;
 namespace Demo.BusinessLogic.Services.Classes
 {
     public class RolesServices(RoleManager<IdentityRole> _roleManager,
-                                IMapper _mapper,
-                                IUnitOfWork _unitOfWork) : IRolesServices
+                                IMapper _mapper) : IRolesServices
     {
 
         public IEnumerable<GetRolesDto> GetAllRoles(string? RoleSearchName)
@@ -35,62 +35,50 @@ namespace Demo.BusinessLogic.Services.Classes
             return _mapper.Map<IEnumerable<GetRolesDto>>(Roles);
         }
 
-        //public EmployeeDetailsDto? GetEmployeeByID(int id)
-        //{
-        //    var emp = _unitOfWork.EmployeeRepository.GetById(id);
+        public async Task<GetRolesDto?> GetRoleByIdAsync(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
 
-        //    return emp is null ? null
-        //        : _mapper.Map<EmployeeDetailsDto>(emp);
-        //}
+            return role is null ? null
+                : _mapper.Map<GetRolesDto>(role);
+        }
 
-        //public int CreateEmployee(CreateEmployeeDto createemployeeDto)
-        //{
+        public async Task<IdentityResult> CreateRoleAsync(CreateRolesDto createRolesDto)
+        {
 
-        //    var emp = _mapper.Map<Employee>(createemployeeDto);
+            var role = _mapper.Map<IdentityRole>(createRolesDto);
 
-        //    var imageName = _AttatchmentService.Upload(createemployeeDto.Image, "Images");
+            var res = await _roleManager.CreateAsync(role);
 
-        //    emp.ImageName = imageName;
-
-        //    _unitOfWork.EmployeeRepository.Add(emp);
-        //    return _unitOfWork.SaveChanges();
-        //}
+            return res;
+        }
 
 
-        //public int UpdateEmployee(UpdateEmployeeDto updateemployeeDto)
-        //{
+        public async Task<IdentityResult> UpdateRoleAsync(UpdateRoleDto updateRoleDto)
+        {
 
+            var role = await _roleManager.FindByIdAsync(updateRoleDto.Id);
 
-        //    var emp = _mapper.Map<Employee>(updateemployeeDto);
+            if (role == null)
+                return IdentityResult.Failed(new IdentityError { Description = "Role not found." });
 
-        //    if (updateemployeeDto.Image != null)
-        //    {
-        //        var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Files", "Images");
-        //        var filePath = Path.Combine(folderPath, updateemployeeDto.Image.Name);
-        //        _AttatchmentService.Delete(filePath);
-        //        var imageName = _AttatchmentService.Upload(updateemployeeDto.Image, "Images");
-        //        emp.ImageName = imageName;
-        //    }
-        //    else
-        //    {
-        //        emp.ImageName = updateemployeeDto.ImageName;
-        //    }
+            role.Name = updateRoleDto.Name;
 
-        //    _unitOfWork.EmployeeRepository.Update(emp);
-        //    return _unitOfWork.SaveChanges();
-        //}
+            var result = await _roleManager.UpdateAsync(role);
 
-        //public bool DeleteEmployee(int id)
-        //{
-        //    var emp = _unitOfWork.EmployeeRepository.GetById(id);
-        //    if (emp is null) return false;
-        //    else
-        //    {
-        //        emp.IsDeleted = true;
-        //        _unitOfWork.EmployeeRepository.Update(emp);
-        //        return (_unitOfWork.SaveChanges() > 0) ? true : false;
-        //    }
-        //}
+            return result;
+
+        }
+
+        public async Task<IdentityResult> DeleteRoleAsync(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+
+            if (role is null)
+                return IdentityResult.Failed(new IdentityError { Description = "Role not found." });
+
+            return await _roleManager.DeleteAsync(role);
+        }
 
     }
 }
