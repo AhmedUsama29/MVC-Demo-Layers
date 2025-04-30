@@ -46,6 +46,8 @@ namespace Demo.Presentation
 
             builder.Services.AddScoped<IAttatchmentService, AttatchmentService>();
 
+            builder.Services.AddScoped<IRolesServices, RolesServices>();
+
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                             .AddEntityFrameworkStores<AppDBContext>()
                             .AddDefaultTokenProviders();

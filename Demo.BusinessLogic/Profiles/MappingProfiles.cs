@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Demo.BusinessLogic.DTOs.EmployeeDtos;
+using Demo.BusinessLogic.DTOs.RolesDtos;
 using Demo.DataAccess.Models.EmployeeModels;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +33,10 @@ namespace Demo.BusinessLogic.Profiles
 
             CreateMap<UpdateEmployeeDto, Employee>()
             .ForMember(dest => dest.HiringDate, option => option.MapFrom(empDto => empDto.HiringDate.ToDateTime(TimeOnly.MinValue)));
+
+            CreateMap<IdentityRole, GetRolesDto>()
+            .ForMember(dest => dest.Id, option => option.MapFrom(IR => IR.Id))
+            .ForMember(dest => dest.Name, option => option.MapFrom(IR => IR.Name));
 
         }
 
