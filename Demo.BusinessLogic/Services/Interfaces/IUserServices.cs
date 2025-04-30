@@ -12,7 +12,7 @@ namespace Demo.BusinessLogic.Services.Interfaces
     public interface IUserServices
     {
 
-        Task<IEnumerable<GetUserDto>> GetAllUsers(string? UserSearchName);
+        Task<IEnumerable<GetUserDto>> GetAllUsersWithRoles(string? UserSearchName);
         public Task<GetUserDto?> GetUserByIdAsync(string id);
         public Task<IdentityResult> UpdateUserAsync(UpdateUserDto updateUserDto);
         public Task<IdentityResult> DeleteUserAsync(string id);

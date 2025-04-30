@@ -4,6 +4,7 @@ using Demo.BusinessLogic.DTOs.UserDtos;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Models.IdentityModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,25 +17,31 @@ namespace Demo.BusinessLogic.Services.Classes
                                 IMapper _mapper) : IUserServices
     {
 
-        public async Task<IEnumerable<GetUserDto>> GetAllUsers(string? UserSearchName)
+        public async Task<IEnumerable<GetUserDto>> GetAllUsersWithRoles(string? SearchValue)
         {
-            var users = string.IsNullOrEmpty(UserSearchName)
-            ? _userManager.Users
-            : _userManager.Users.Where(e =>(e.FirstName + " " + e.LastName).ToLower().Contains(UserSearchName.ToLower()));
+            var usersQuery = _userManager.Users.AsQueryable();
 
+            if (!string.IsNullOrWhiteSpace(SearchValue))
+                usersQuery = usersQuery.Where(U => U.Email.ToLower().Contains(SearchValue.ToLower()));
 
-            var userDtos = new List<GetUserDto>();
-
-            foreach (var user in users)
+            var usersList = await usersQuery.Select(U => new GetUserDto
             {
-                var dto = _mapper.Map<GetUserDto>(user);
-                dto.Roles = (await _userManager.GetRolesAsync(user)).ToList();
-                userDtos.Add(dto);
+                Id = U.Id,
+                FirstName = U.FirstName,
+                LastName = U.LastName,
+                Email = U.Email
+            }).ToListAsync();
+
+            foreach (var user in usersList)
+            {
+                var userEntity = await _userManager.FindByIdAsync(user.Id);
+                user.Roles = await _userManager.GetRolesAsync(userEntity);
             }
 
-            return userDtos;
-
+            return usersList;
         }
+
+
 
         public async Task<GetUserDto?> GetUserByIdAsync(string id)
         {
