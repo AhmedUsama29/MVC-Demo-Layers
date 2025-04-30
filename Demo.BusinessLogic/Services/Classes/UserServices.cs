@@ -29,7 +29,8 @@ namespace Demo.BusinessLogic.Services.Classes
                 Id = U.Id,
                 FirstName = U.FirstName,
                 LastName = U.LastName,
-                Email = U.Email
+                Email = U.Email,
+                PhoneNumber = U.PhoneNumber,
             }).ToListAsync();
 
             foreach (var user in usersList)

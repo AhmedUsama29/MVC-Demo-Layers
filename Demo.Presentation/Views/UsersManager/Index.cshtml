@@ -49,15 +49,13 @@
                     <td>@User.LastName</td>
                     <td>@User.Email</td>
                     <td>@User.PhoneNumber</td>
-                    @* /////////////////////////////////////// *@
 
                     <td>
-                        @* عرض الأدوار داخل قائمة منسدلة *@
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                 @if (User.Roles != null && User.Roles.Any())
                                 {
-                                    @string.Join(", ", User.Roles)  <!-- عرض الأدوار الرئيسية -->
+                                    @string.Join(", ", User.Roles)  
                                 }
                                 else
                                 {
@@ -80,7 +78,6 @@
                         </div>
                     </td>
 
-                    @* /////////////////////////////////////// *@
 
                     <td><a class="btn btn-primary" asp-action="Details" asp-route-id="@User.Id"><i class="fas fa-eye"></i> Details</a></td>
 

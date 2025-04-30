@@ -1,9 +1,16 @@
-﻿using Demo.BusinessLogic.Services.Interfaces;
+﻿using Demo.BusinessLogic.DTOs.RolesDtos;
+using Demo.BusinessLogic.DTOs.UserDtos;
+using Demo.BusinessLogic.Services.Classes;
+using Demo.BusinessLogic.Services.Interfaces;
+using Demo.Presentation.ViewModels.RolesViewModels;
+using Demo.Presentation.ViewModels.UserViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Buffers;
 
 namespace Demo.Presentation.Controllers
 {
+    [Authorize]
     public class UsersManagerController(IUserServices _userServices,
         ILogger<DepartmentController> _logger,
         IWebHostEnvironment _env) : Controller
@@ -15,5 +22,148 @@ namespace Demo.Presentation.Controllers
             return View(users);
         }
 
+        #region Details
+
+        public async Task<IActionResult> Details(string id)
+        {
+            var user = await _userServices.GetUserByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
+        #endregion
+
+        #region Update
+
+        [HttpGet]
+        public async Task<IActionResult> Update(string id)
+        {
+
+            var user = await _userServices.GetUserByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var model = new UpdateUserViewModel
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber,
+            };
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Update([FromRoute] string? id, UpdateUserViewModel viewModel)
+        {
+
+            if (string.IsNullOrWhiteSpace(id)) return BadRequest();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+
+                    var res = await _userServices.UpdateUserAsync(new UpdateUserDto
+                    {
+                        Id = id,
+                        FirstName = viewModel.FirstName,
+                        LastName = viewModel.LastName,
+                        PhoneNumber = viewModel.PhoneNumber,
+                    });
+
+                    if (res.Succeeded)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        foreach (var error in res.Errors)
+                        {
+                            ModelState.AddModelError("", error.Description);
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    if (_env.IsDevelopment())
+                    {
+                        ModelState.AddModelError(String.Empty, ex.Message);
+                    }
+                    else
+                    {
+                        _logger.LogError(ex.Message);
+                    }
+                }
+            }
+            return View(viewModel);
+        }
+
+        #endregion
+
+        #region Delete
+
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(string? id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return BadRequest();
+            }
+            var user = await _userServices.GetUserByIdAsync(id);
+            if (user is null) return NotFound();
+
+            var model = new DeleteUserViewModel
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber,
+                Email = user.Email,
+            };
+
+            return View(model);
+
+        }
+
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirm([FromRoute] string id)
+        {
+
+            if (string.IsNullOrEmpty(id)) return BadRequest();
+
+            try
+            {
+                var res = await _userServices.DeleteUserAsync(id);
+                if (res.Succeeded) return RedirectToAction(nameof(Index));
+                else
+                {
+                    ModelState.AddModelError(String.Empty, "Error in deleting department");
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_env.IsDevelopment())
+                {
+                    ModelState.AddModelError(String.Empty, ex.Message);
+                }
+                else
+                {
+                    _logger.LogError(ex.Message);
+                }
+            }
+            return RedirectToAction(nameof(Delete), new { id });
+        }
+
+
+        #endregion
     }
 }

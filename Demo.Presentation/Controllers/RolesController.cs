@@ -15,7 +15,6 @@ namespace Demo.Presentation.Controllers
         IWebHostEnvironment _env) : Controller
     {
 
-
         public IActionResult Index(string? RoleSearchName)
         {
 
@@ -183,12 +182,6 @@ namespace Demo.Presentation.Controllers
         {
 
             if (string.IsNullOrEmpty(id)) return BadRequest();
-            var role = await _rolesServices.GetRoleByIdAsync(id);
-            if (role == null)
-            {
-                return NotFound();
-            }
-
             try
             {
                 var res = await _rolesServices.DeleteRoleAsync(id);
