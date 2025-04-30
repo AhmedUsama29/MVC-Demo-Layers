@@ -1,6 +1,5 @@
 ﻿using Demo.BusinessLogic.DTOs.DepartmentDtos;
 using Demo.BusinessLogic.DTOs.RolesDtos;
-using Demo.BusinessLogic.Services.Classes; // remove
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.Presentation.ViewModels.DepartmentViewModels;
 using Demo.Presentation.ViewModels.RolesViewModels;

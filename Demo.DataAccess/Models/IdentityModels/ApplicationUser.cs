@@ -12,6 +12,6 @@ namespace Demo.DataAccess.Models.IdentityModels
 
         public string FirstName { get; set; } = null!;
         public string? LastName { get; set; }
-
+        
     }
 }

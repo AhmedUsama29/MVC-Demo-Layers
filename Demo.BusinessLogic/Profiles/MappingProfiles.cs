@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Demo.BusinessLogic.DTOs.EmployeeDtos;
 using Demo.BusinessLogic.DTOs.RolesDtos;
+using Demo.BusinessLogic.DTOs.UserDtos;
 using Demo.DataAccess.Models.EmployeeModels;
+using Demo.DataAccess.Models.IdentityModels;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -40,6 +42,9 @@ namespace Demo.BusinessLogic.Profiles
 
             CreateMap<CreateRolesDto, IdentityRole>()
             .ForMember(dest => dest.Name, option => option.MapFrom(dto => dto.Name));
+
+            CreateMap<ApplicationUser, GetUserDto>()
+            .ForMember(dest => dest.Roles, opt => opt.Ignore());
 
 
         }

@@ -48,6 +48,8 @@ namespace Demo.Presentation
 
             builder.Services.AddScoped<IRolesServices, RolesServices>();
 
+            builder.Services.AddScoped<IUserServices, UserServices>();
+
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                             .AddEntityFrameworkStores<AppDBContext>()
                             .AddDefaultTokenProviders();
