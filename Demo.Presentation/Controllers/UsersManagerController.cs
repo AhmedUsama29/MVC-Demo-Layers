@@ -5,6 +5,7 @@ using Demo.BusinessLogic.Services.Interfaces;
 using Demo.Presentation.ViewModels.RolesViewModels;
 using Demo.Presentation.ViewModels.UserViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Buffers;
 
@@ -50,6 +51,7 @@ namespace Demo.Presentation.Controllers
             }
             var model = new UpdateUserViewModel
             {
+                Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 PhoneNumber = user.PhoneNumber,
@@ -103,6 +105,51 @@ namespace Demo.Presentation.Controllers
                 }
             }
             return View(viewModel);
+        }
+
+        #endregion
+
+        #region Roles Mangement
+
+        [HttpGet]
+        public IActionResult AddOrRemoveRoles(string id)
+        {
+
+            var model = new EditUserRolesViewModel()
+            {
+                UserId = id,
+                UserRoles = _userServices.GetUserRolesAsync(id).Result.ToList()
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> AddOrRemoveRolesAsync([FromRoute] string id, EditUserRolesViewModel model)
+        {
+            if (string.IsNullOrEmpty(id)) return BadRequest();
+            try
+            {
+                var res = await _userServices.SyncUserRolesAsync(id, model.UserRoles);
+                if (res.Succeeded) return RedirectToAction(nameof(Index));
+                else
+                {
+                    ModelState.AddModelError(String.Empty, "Error in updating user roles");
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_env.IsDevelopment())
+                {
+                    ModelState.AddModelError(String.Empty, ex.Message);
+                }
+                else
+                {
+                    _logger.LogError(ex.Message);
+                }
+            }
+            return View(model);
         }
 
         #endregion

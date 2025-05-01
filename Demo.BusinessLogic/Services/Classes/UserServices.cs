@@ -83,7 +83,36 @@ namespace Demo.BusinessLogic.Services.Classes
             return await _userManager.DeleteAsync(user);
         }
 
+        public async Task<IdentityResult> SyncUserRolesAsync(string userId, IEnumerable<string> selectedRoles)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                throw new ArgumentException("User not found.");
 
+            var currentRoles = await _userManager.GetRolesAsync(user);
+
+            var rolesToAdd = selectedRoles.Except(currentRoles);
+            var rolesToRemove = currentRoles.Except(selectedRoles);
+
+            var addResult = await _userManager.AddToRolesAsync(user, rolesToAdd);
+            if (!addResult.Succeeded)
+                return addResult;
+
+            var removeResult = await _userManager.RemoveFromRolesAsync(user, rolesToRemove);
+            return removeResult;
+        }
+
+
+        public async Task<IEnumerable<string>> GetUserRolesAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                throw new ArgumentException("User not found", nameof(userId));
+            }
+
+            return await _userManager.GetRolesAsync(user);
+        }
 
     }
 }

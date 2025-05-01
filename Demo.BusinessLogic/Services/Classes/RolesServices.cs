@@ -5,6 +5,7 @@ using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Models.EmployeeModels;
 using Demo.DataAccess.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,8 +18,16 @@ namespace Demo.BusinessLogic.Services.Classes
     public class RolesServices(RoleManager<IdentityRole> _roleManager,
                                 IMapper _mapper) : IRolesServices
     {
+        public async Task<IEnumerable<string?>> GetAllRolesAsync()
+        {
+            var roles = await _roleManager.Roles
+            .Select(r => r.Name)
+            .ToListAsync();
 
-        public IEnumerable<GetRolesDto> GetAllRoles(string? RoleSearchName)
+            return roles;
+
+        }
+        public IEnumerable<GetRolesDto> GetAllRolesDetails(string? RoleSearchName)
         {
 
             IEnumerable<IdentityRole> Roles;
@@ -80,5 +89,6 @@ namespace Demo.BusinessLogic.Services.Classes
             return await _roleManager.DeleteAsync(role);
         }
 
+        
     }
 }

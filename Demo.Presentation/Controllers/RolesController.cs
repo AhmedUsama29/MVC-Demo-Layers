@@ -18,7 +18,7 @@ namespace Demo.Presentation.Controllers
         public IActionResult Index(string? RoleSearchName)
         {
 
-            var model = _rolesServices.GetAllRoles(RoleSearchName);
+            var model = _rolesServices.GetAllRolesDetails(RoleSearchName);
 
             return View(model);
         }

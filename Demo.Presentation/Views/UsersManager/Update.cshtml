@@ -31,10 +31,19 @@
 
     </div>
 
-    <div class="mt-4">
-        <button type="submit" class="btn btn-warning">Save Changes</button>
-        <a asp-action="Index" class="btn btn-outline-dark ms-2">Back To List</a>
+    <div class="mt-4 d-flex justify-content-between">
+        <div>
+            <button type="submit" class="btn btn-warning">Save Changes</button>
+            <a asp-action="Index" class="btn btn-outline-dark ms-2">Back To List</a>
+        </div>
+
+        <a asp-action="AddOrRemoveRoles"
+           asp-route-id="@Model.Id"
+           class="btn btn-info">
+            <i class="fas fa-user-cog"></i> Manage Roles
+        </a>
     </div>
+
 </form>
 
 @section ValidationScripts {

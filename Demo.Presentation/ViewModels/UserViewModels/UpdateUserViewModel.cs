@@ -5,6 +5,8 @@ namespace Demo.Presentation.ViewModels.UserViewModels
     public class UpdateUserViewModel
     {
 
+        public string Id { get; set; }
+
         [Required(ErrorMessage = "First name is required")]
         [MaxLength(50, ErrorMessage = "First name cannot exceed 50 characters")]
         public string FirstName { get; set; }
