@@ -4,30 +4,69 @@
     Layout = "~/Views/Shared/_AuthLayout.cshtml";
 }
 
-<div asp-validation-summary="All"></div>
-
 <div class="main-w3layouts wrapper">
-	<h1>Register</h1>
-	<div class="main-agileinfo">
-		<div class="agileits-top">
-			<form asp-action="Register" method="post">
-				<input class="text" asp-for="FirstName" placeholder="FirstName" required="">
-				<br />
-				<input class="text" asp-for="LastName" placeholder="LastName" required="">
-				<br />
-				<input class="text" asp-for="UserName" placeholder="UserName" required="">
-				<input class="text email" asp-for="Email" placeholder="Email" required="">
-				<input class="text" asp-for="Password" placeholder="Password" required="">
-				<input class="text w3lpass"asp-for="ConfirmPassword" placeholder="Confirm Password" required="">
-				<div class="wthree-text">
-					<label class="anim">
-						<input class="checkbox" asp-for="isAgree" required="">
-						<span>I Agree To The Terms & Conditions</span>
-					</label>
-					<div class="clear"> </div>
-				</div>
-				<input type="submit" value="Register">
-			</form>
-			<p>Have an Account? <a asp-action ="LogIn"> Login Now!</a></p>
-		</div>
-	</div>
+    <h1>Register</h1>
+    <div class="main-agileinfo">
+        <div class="agileits-top">
+            <form asp-action="Register" method="post">
+
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <input class="text" asp-for="FirstName" placeholder="FirstName" required="">
+                <br />
+                <input class="text" asp-for="LastName" placeholder="LastName" required="">
+                <br />
+                <input class="text" asp-for="UserName" placeholder="UserName" required="">
+                <input class="text email" asp-for="Email" placeholder="Email" required="">
+
+                <div class="password-wrapper">
+                    <input type="password" class="text" asp-for="Password" placeholder="Password" required="" id="password">
+                    <span class="toggle-password" onclick="togglePassword('password', this)">👁️</span>
+                </div>
+
+                <div class="password-wrapper">
+                    <input type="password" class="text w3lpass" asp-for="ConfirmPassword" placeholder="Confirm Password" required="" id="confirmPassword">
+                    <span class="toggle-password" onclick="togglePassword('confirmPassword', this)">👁️</span>
+                </div>
+
+                <div class="wthree-text">
+                    <label class="anim">
+                        <input class="checkbox" asp-for="isAgree" required="">
+                        <span>I Agree To The Terms & Conditions</span>
+                    </label>
+                    <div class="clear"> </div>
+                </div>
+                <input type="submit" value="Register">
+            </form>
+            <p>Have an Account? <a asp-action="LogIn"> Login Now!</a></p>
+        </div>
+    </div>
+</div>
+
+<style>
+    .password-wrapper {
+        position: relative;
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        font-size: 18px;
+    }
+</style>
+
+<script>
+    function togglePassword(fieldId, icon) {
+        const field = document.getElementById(fieldId);
+        if (field.type === "password") {
+            field.type = "text";
+            icon.textContent = "🙈";
+        } else {
+            field.type = "password";
+            icon.textContent = "👁️";
+        }
+    }
+</script>
