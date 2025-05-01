@@ -58,7 +58,7 @@ namespace Demo.BusinessLogic.Services.Classes
             var role = _mapper.Map<IdentityRole>(createRolesDto);
 
             var res = await _roleManager.CreateAsync(role);
-
+            
             return res;
         }
 
@@ -89,6 +89,6 @@ namespace Demo.BusinessLogic.Services.Classes
             return await _roleManager.DeleteAsync(role);
         }
 
-        
+       
     }
 }

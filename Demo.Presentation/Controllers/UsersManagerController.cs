@@ -115,7 +115,7 @@ namespace Demo.Presentation.Controllers
         public IActionResult AddOrRemoveRoles(string id)
         {
 
-            var model = new EditUserRolesViewModel()
+            var model = new EditRolesForUsersViewModel()
             {
                 UserId = id,
                 UserRoles = _userServices.GetUserRolesAsync(id).Result.ToList()
@@ -126,7 +126,7 @@ namespace Demo.Presentation.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult> AddOrRemoveRolesAsync([FromRoute] string id, EditUserRolesViewModel model)
+        public async Task<IActionResult> AddOrRemoveRolesAsync([FromRoute] string id, EditRolesForUsersViewModel model)
         {
             if (string.IsNullOrEmpty(id)) return BadRequest();
             try

@@ -1,8 +1,10 @@
 ﻿using Demo.BusinessLogic.DTOs.DepartmentDtos;
 using Demo.BusinessLogic.DTOs.RolesDtos;
+using Demo.BusinessLogic.Services.Classes;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.Presentation.ViewModels.DepartmentViewModels;
 using Demo.Presentation.ViewModels.RolesViewModels;
+using Demo.Presentation.ViewModels.UserViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +13,7 @@ namespace Demo.Presentation.Controllers
 {
     [Authorize]
     public class RolesController(IRolesServices _rolesServices,
+        IUserServices _userServices,
         ILogger<DepartmentController> _logger,
         IWebHostEnvironment _env) : Controller
     {
@@ -157,6 +160,59 @@ namespace Demo.Presentation.Controllers
             }
             return View(viewModel);
         }
+
+        #endregion
+
+        #region User Management
+
+        [HttpGet]
+        public async Task<IActionResult> AddOrRemoveUser(string id)
+        {
+            var role = await _rolesServices.GetRoleByIdAsync(id);
+            if (role == null) return NotFound();
+
+            var allUsers = await _userServices.GetAllUsersWithRoles(null);
+            var roleUsers = (await _userServices.GetUserIdsInRoleAsync(role.Name))?.ToList() ?? new();
+
+            var model = new EditUsersForRolesViewModel
+            {
+                RoleId = id,
+                RoleName = role.Name,
+                RoleUsers = roleUsers,
+                AllUsers = allUsers.ToList()
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddOrRemoveUser(string id, EditUsersForRolesViewModel model)
+        {
+            var role = await _rolesServices.GetRoleByIdAsync(id);
+            if (role == null)
+                return NotFound();
+
+            var currentUserIds = await _userServices.GetUserIdsInRoleAsync(role.Name);
+
+            var selectedUserIds = model.RoleUsers ?? new List<string>();
+
+            var userIdsToAdd = selectedUserIds.Except(currentUserIds).ToList();
+
+            var userIdsToRemove = currentUserIds.Except(selectedUserIds).ToList();
+
+            foreach (var userId in userIdsToAdd)
+            {
+                var result = await _userServices.AddUserToRoleAsync(userId, role.Name);
+            }
+
+            foreach (var userId in userIdsToRemove)
+            {
+                var result = await _userServices.RemoveUserFromRoleAsync(userId, role.Name);
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
 
         #endregion
 

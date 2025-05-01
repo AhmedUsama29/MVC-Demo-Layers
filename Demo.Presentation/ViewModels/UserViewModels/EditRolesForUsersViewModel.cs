@@ -1,7 +1,7 @@
 ﻿
 namespace Demo.Presentation.ViewModels.UserViewModels
 {
-    public class EditUserRolesViewModel
+    public class EditRolesForUsersViewModel
     {
 
         public string UserId { get; set; } = null!;

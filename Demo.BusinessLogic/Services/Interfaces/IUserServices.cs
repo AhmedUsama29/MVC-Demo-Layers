@@ -1,5 +1,6 @@
 ﻿using Demo.BusinessLogic.DTOs.RolesDtos;
 using Demo.BusinessLogic.DTOs.UserDtos;
+using Demo.DataAccess.Models.IdentityModels;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,9 @@ namespace Demo.BusinessLogic.Services.Interfaces
 {
     public interface IUserServices
     {
-
+        public Task<IEnumerable<string>> GetUserIdsInRoleAsync(string roleName);
+        public Task<IdentityResult> AddUserToRoleAsync(string userId, string roleName);
+        public Task<IdentityResult> RemoveUserFromRoleAsync(string userId, string roleName);
         public Task<IEnumerable<GetUserDto>> GetAllUsersWithRoles(string? UserSearchName);
         public Task<IEnumerable<string>> GetUserRolesAsync(string userId);
         public Task<GetUserDto?> GetUserByIdAsync(string id);
